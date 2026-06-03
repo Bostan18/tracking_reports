@@ -206,9 +206,12 @@ def build_pdf(result, meta, logo_left=None, logo_right=None) -> bytes:
         f"nocturne à {k['pct_night']}%, deux indicateurs à surveiller dans le cadre du suivi sécurité.",
         ss["Body"]))
 
+    # Nombre d'éléments dans les graphiques 'top' selon la taille de flotte
+    top_n = charts.top_n_for_fleet(k["n_vehicles"])
+
     # Top véhicules
     story.append(Paragraph("Activité par véhicule", ss["H2b"]))
-    story.append(RLImage(io.BytesIO(charts.chart_top_vehicles(result["by_vehicle"])),
+    story.append(RLImage(io.BytesIO(charts.chart_top_vehicles(result["by_vehicle"], n=top_n)),
                          width=170 * mm, height=99 * mm))
 
     # Tableau récap par véhicule
@@ -222,7 +225,7 @@ def build_pdf(result, meta, logo_left=None, logo_right=None) -> bytes:
     story.append(RLImage(io.BytesIO(charts.chart_speed_distribution(
         result["speed_values"], k["speed_threshold"])), width=170 * mm, height=85 * mm))
     story.append(Spacer(1, 6))
-    sp_chart = charts.chart_speeding_by_vehicle(result["by_vehicle"])
+    sp_chart = charts.chart_speeding_by_vehicle(result["by_vehicle"], n=top_n)
     if sp_chart:
         story.append(RLImage(io.BytesIO(sp_chart), width=170 * mm, height=90 * mm))
 

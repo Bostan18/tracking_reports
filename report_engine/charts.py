@@ -24,6 +24,18 @@ plt.rcParams.update({
 })
 
 
+def top_n_for_fleet(fleet_size) -> int:
+    """Nombre d'éléments à afficher dans les graphiques 'top' selon la taille de flotte.
+
+    ≥ 10 véhicules → top 10 ; ≥ 5 → top 5 ; sinon (< 5) → top 3.
+    """
+    if fleet_size >= 10:
+        return 10
+    if fleet_size >= 5:
+        return 5
+    return 3
+
+
 def _save(fig) -> bytes:
     buf = io.BytesIO()
     fig.savefig(buf, format="png", dpi=150, bbox_inches="tight")

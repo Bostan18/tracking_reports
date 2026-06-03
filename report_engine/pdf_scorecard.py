@@ -106,6 +106,9 @@ def build_scorecard_pdf(result, meta, logo_left=None, logo_right=None) -> bytes:
         f"appelle une vérification des capteurs sur les véhicules non couverts ou aux "
         f"valeurs aberrantes.", ss["Body"]))
 
+    # Nombre d'éléments dans les graphiques 'top' selon la taille de flotte
+    top_n = charts.top_n_for_fleet(k["n_vehicles"])
+
     # Comportement
     story.append(Paragraph("Comportement de conduite (Ecodrive)", ss["H2b"]))
     story.append(RLImage(io.BytesIO(charts.chart_label_distribution(result["label_counts"])),
@@ -113,14 +116,14 @@ def build_scorecard_pdf(result, meta, logo_left=None, logo_right=None) -> bytes:
     story.append(Spacer(1, 6))
     story.append(RLImage(io.BytesIO(charts.chart_score_distribution(result["merged"])),
                          width=170 * mm, height=80 * mm))
-    risk = charts.chart_top_risk(result["merged"])
+    risk = charts.chart_top_risk(result["merged"], n=top_n)
     if risk:
         story.append(Spacer(1, 6))
         story.append(RLImage(io.BytesIO(risk), width=170 * mm, height=90 * mm))
 
     # Consommation
     story.append(Paragraph("Consommation carburant", ss["H2b"]))
-    cons = charts.chart_top_consumers(result["merged"])
+    cons = charts.chart_top_consumers(result["merged"], n=top_n)
     if cons:
         story.append(RLImage(io.BytesIO(cons), width=170 * mm, height=99 * mm))
     dvf = charts.chart_distance_vs_fuel(result["merged"])
