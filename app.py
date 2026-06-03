@@ -9,13 +9,13 @@ import streamlit as st
 
 import report_engine as engine
 
-st.set_page_config(page_title="Comafrique — Rapports Tracking", page_icon="📊", layout="centered")
+st.set_page_config(page_title="Comafrique - Rapports Tracking", page_icon="📊", layout="centered")
 
 ASSETS = os.path.join(os.path.dirname(__file__), "assets")
 
 st.markdown(
-    "<h2 style='color:#003366;margin-bottom:0'>📊 Plateforme Rapports — Support Tracking</h2>"
-    "<p style='color:#7F8C8D;margin-top:4px'>Comafrique Technologies · Géolocalisation & Gestion de flotte</p>",
+    "<h2 style='color:#003366;margin-bottom:0'>📊 Plateforme Rapports - Support Tracking</h2>"
+    "<p style='color:#7F8C8D;margin-top:4px'> PC / CT - Géolocalisation & Gestion de flotte</p>",
     unsafe_allow_html=True,
 )
 st.divider()
@@ -26,15 +26,15 @@ with st.sidebar:
     st.caption("Limite à partir de laquelle un trajet est compté en excès de vitesse.")
     st.divider()
     st.subheader("Branding")
-    st.caption("Logo Comafrique = par défaut (à gauche). "
-               "Charge le logo du client pour la droite.")
+    st.caption("Le logo de Comafrique sera par défaut à gauche de l'entête. "
+               "Chargez le logo du client pour qu'il s'affiche à droite.")
     client_logo = st.file_uploader("Logo du client (PNG/JPG)", type=["png", "jpg", "jpeg"],
                                    key="logo")
 
 st.subheader("1. Choisir le mode")
 mode = st.radio(
     "Type de traitement",
-    ["Rapport simple (Trajet)", "Scorecard combiné (Ecodrive + Conso)"],
+    ["Rapport simple (Trajet)", "KPI combiné (Ecodrive + Conso)"],
     horizontal=True, label_visibility="collapsed")
 
 
@@ -110,4 +110,4 @@ else:  # Scorecard combiné
         except Exception as e:
             st.error(f"Erreur : {e}")
     else:
-        st.info("Dépose les deux fichiers (Ecodrive + Consommation) pour combiner.")
+        st.info("Déposez les deux fichiers (Ecodrive + Consommation) pour combiner.")
