@@ -216,9 +216,9 @@ def build_pdf(result, meta, logo_left=None, logo_right=None) -> bytes:
 
     # Tableau récap par véhicule
     story.append(Spacer(1, 6))
-    story.append(Paragraph("Détail par véhicule (top 18 par distance)", ss["H2b"]))
+    story.append(Paragraph(f"Détail par véhicule (top {top_n} par distance)", ss["H2b"]))
     cw = [40 * mm, 16 * mm, 22 * mm, 18 * mm, 22 * mm, 22 * mm, 18 * mm, 18 * mm]
-    story.append(_df_table(result["by_vehicle"], ss, max_rows=18, col_widths=cw))
+    story.append(_df_table(result["by_vehicle"], ss, max_rows=top_n, col_widths=cw))
 
     # Sécurité & comportement
     story.append(Paragraph("Comportement & sécurité", ss["H2b"]))

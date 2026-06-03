@@ -132,11 +132,11 @@ def build_scorecard_pdf(result, meta, logo_left=None, logo_right=None) -> bytes:
         story.append(RLImage(io.BytesIO(dvf), width=170 * mm, height=90 * mm))
 
     # Scorecard table
-    story.append(Paragraph("Scorecard véhicule (top 20 par distance)", ss["H2b"]))
+    story.append(Paragraph(f"Scorecard véhicule (top {top_n} par distance)", ss["H2b"]))
     sc = result["scorecard"][["Véhicule", "Score (%)", "Label", "Distance (km)",
                               "Conso (L/100km)", "Brusques/100km", "Conducteurs"]]
     cw = [42 * mm, 18 * mm, 20 * mm, 22 * mm, 24 * mm, 24 * mm, 20 * mm]
-    story.append(_df_table(sc, ss, max_rows=20, col_widths=cw))
+    story.append(_df_table(sc, ss, max_rows=top_n, col_widths=cw))
 
     doc.build(story)
     buf.seek(0)
